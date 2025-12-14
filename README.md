@@ -1,0 +1,167 @@
+
+
+# 🌾 RuralAssist — Digital Empowerment Platform
+
+Empowering rural India with digital access to government schemes, document digitization, scam detection, and AI-powered support.
+
+---
+
+## 🚀 Overview
+
+RuralAssist is a bilingual (English/Hindi) web platform for:
+- Discovering government schemes
+- Document OCR (image/PDF to text)
+- Scam detection and reporting
+- AI chatbot support
+
+Designed for reliability, offline access, and ease of use for rural communities.
+
+---
+
+## 🛠️ Tech Stack
+
+**Backend**
+- FastAPI (Python)
+- JSON-based DB (profiles, activities, scam reports)
+- EasyOCR + OpenCV + PyMuPDF (OCR)
+- Email OTP (Brevo API)
+- Scam analysis (keyword-based, JSON storage)
+
+**Frontend**
+- HTML/CSS/JS (Vanilla, ES6+)
+- PWA (Service worker, offline cache-first)
+- Centralized config (`config.js`, `config.production.js`)
+- Bilingual UI (English/Hindi)
+- Shared components (sidebar, chatbot)
+
+---
+
+## 📁 Project Structure
+
+```
+/backend
+    main.py
+    auth_service.py
+    scam_service.py
+    ocr_service.py
+    profile_service.py
+    faq_service.py
+    schemes_service.py
+    models.py
+    schemas.py
+    database.py
+    email_service.py
+    /chatbot_language
+    /json_db
+        profiles_db.json
+        activity_db.json
+        scam_reports_db.json
+        schemes_db.json
+        scam_keywords.json
+        faq_db.json
+
+/frontend
+    index.html
+    schemes.html
+    ocr.html
+    report.html
+    profile.html
+    login.html
+    about.html
+    contact.html
+    privacy.html
+    /assets
+        /css
+        /js
+        /images
+    /components
+        sidebar.html
+        chatbot.html
+    sw.js
+    config.js
+    config.production.js
+    vercel.json
+```
+
+---
+
+## ✨ Features
+
+- OTP login (Email)
+- Dashboard: Activity tracking, OCR history
+- OCR: EasyOCR (Hindi/English), image/PDF
+- Scam detection & reporting: Keyword scoring, JSON persistence
+- Schemes search: Local + search endpoints
+- FAQ engine: Voting, relevance scoring
+- Chatbot: Floating + full-page
+- PWA offline mode: Cache-first, reliable
+- JSON-based persistence: Profiles, activities, scam reports
+
+---
+
+## 🧩 Architecture & Workflow
+
+```mermaid
+graph TD
+    A[User] -->|Uses Web App| B[Frontend (HTML/JS/PWA)]
+    B -->|API Calls| C[Backend (FastAPI)]
+    C -->|Reads/Writes| D[JSON DB]
+    B -->|Offline Mode| E[Service Worker]
+    B -->|OCR| F[EasyOCR]
+    B -->|Scam Detection| G[Keyword Analysis]
+    B -->|Chatbot| H[AI Chatbot]
+```
+
+- **Frontend:** Static pages, shared components, PWA, bilingual UI
+- **Backend:** Modular FastAPI services, JSON DB, OCR, scam analysis, FAQ, schemes
+- **Data Flow:** User → Frontend → API → JSON DB → Profile Analytics, OCR, Scam Analyzer
+
+---
+
+## 📚 API Endpoints
+
+**Auth**
+- `POST /auth/send-otp` — Send OTP to email
+- `POST /auth/verify-otp` — Verify OTP
+
+**Profile**
+- `GET /profile/me` — Get current user profile
+- `POST /profile/me` — Update profile
+- `GET /profile/activity` — Get user activity
+- `GET /profile/dashboard` — Get dashboard stats
+
+**FAQ**
+- `POST /faq/search` — Search FAQs
+- `POST /faq/vote` — Vote on FAQ helpfulness
+
+**Schemes**
+- `POST /schemes/search` — Search schemes
+- `GET /schemes/local` — Get local schemes
+- `GET /schemes/status` — Get scheme status
+
+**Scam Detection**
+- `POST /scam/analyze` — Analyze scam risk
+- `POST /scam/report` — Submit scam report
+- `GET /scam/common-scams` — List common scams
+
+**OCR**
+- `POST /ocr/extract-text` — Extract text from image/PDF
+
+---
+
+## 🖼️ Screenshots
+
+*Add screenshots here to showcase UI and features.*
+
+---
+
+## 📦 Deployment
+
+- **Frontend:** Vercel (static hosting)
+- **Backend:** Render (FastAPI)
+
+---
+
+## 📝 License
+
+MIT
