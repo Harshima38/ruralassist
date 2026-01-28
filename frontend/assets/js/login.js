@@ -56,8 +56,8 @@ async function sendOTP() {
 
     try {
         await emailjs.send(
-            "YOUR_SERVICE_ID",
-            "YOUR_TEMPLATE_ID",
+            "service_5kfieij",
+            "template_izgz3l6",
             {
                 to_email: email,
                 otp: otp
