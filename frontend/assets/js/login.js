@@ -31,73 +31,71 @@ otpInput?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") verifyOTP();
 });
 
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 async function sendOTP() {
     const email = emailInput.value.trim();
+
     if (!email) {
         updateStatus("⚠️ Please enter your email first.", "warning");
         return;
     }
 
-    // Validate email format
     const emailRegex = /^[\w\.-]+@[\w\.-]+\.[\w-]+$/;
     if (!emailRegex.test(email)) {
-        updateStatus("❌ Please enter a valid email address.", "error");
+        updateStatus("❌ Invalid email address.", "error");
         return;
     }
 
     sendOtpBtn.disabled = true;
-    updateStatus("📧 Sending OTP to your email...", "info");
+    updateStatus("📧 Sending OTP...", "info");
+
+    const otp = generateOTP();
 
     try {
-        const res = await fetch(`${AppConfig.API_BASE_URL}/auth/send-email-otp`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-            updateStatus(data.message, "success");
-            otpSentTime = Date.now();
-            
-            // Show OTP input field
-            if (otpInput) {
-                otpInput.disabled = false;
-                otpInput.focus();
+        await emailjs.send(
+            "YOUR_SERVICE_ID",
+            "YOUR_TEMPLATE_ID",
+            {
+                to_email: email,
+                otp: otp
             }
-            if (verifyOtpBtn) verifyOtpBtn.disabled = false;
-            
-            // Enable resend button after 30 seconds
-            startResendTimer();
-            
-            // Show helpful message
-            setTimeout(() => {
-                updateStatus("✅ OTP sent! Check your email inbox (and spam folder).", "success");
-            }, 2000);
-        } else {
-            updateStatus(data.message || "❌ Failed to send OTP.", "error");
-            sendOtpBtn.disabled = false;
-        }
+        );
+
+        // Store OTP temporarily (5 minutes)
+        localStorage.setItem("ruralassist_temp_otp", otp);
+        localStorage.setItem("ruralassist_otp_time", Date.now());
+
+        updateStatus("✅ OTP sent successfully. Check inbox or spam.", "success");
+
+        otpInput.disabled = false;
+        verifyOtpBtn.disabled = false;
+        startResendTimer();
 
     } catch (err) {
-        console.error("Send OTP error:", err);
-        updateStatus("❌ Error sending OTP. Check if backend is running on port 8000.", "error");
+        console.error("EmailJS error:", err);
+        updateStatus("❌ Failed to send OTP. Try again.", "error");
         sendOtpBtn.disabled = false;
     }
 }
+
 
 async function verifyOTP() {
     const email = emailInput.value.trim();
     const otp = otpInput.value.trim();
 
+    const otpTime = localStorage.getItem("ruralassist_otp_time");
+
     if (!email || !otp) {
-        updateStatus("⚠️ Please enter both email and OTP.", "warning");
+        updateStatus("⚠️ Please enter email and OTP.", "warning");
         return;
     }
 
-    if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
-        updateStatus("❌ OTP must be 6 digits.", "error");
+    if (!otpTime || Date.now() - otpTime > 5 * 60 * 1000) {
+        updateStatus("⏰ OTP expired. Please resend.", "error");
+        verifyOtpBtn.disabled = false;
         return;
     }
 
@@ -114,51 +112,47 @@ async function verifyOTP() {
         const data = await res.json();
 
         if (data.success && data.token) {
+
+            // ✅ CLEAR TEMP OTP DATA
+            localStorage.removeItem("ruralassist_temp_otp");
+            localStorage.removeItem("ruralassist_otp_time");
+
             updateStatus("✅ Login successful! Redirecting...", "success");
-            
-            // Store auth data
-            try {
-                localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
-                localStorage.setItem(STORAGE_KEYS.LOGGED_IN, "true");
-                localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
-                
-                // Ask for name if not set
-                if (!localStorage.getItem(STORAGE_KEYS.USER_NAME)) {
-                    const name = prompt("Welcome! What's your name? (optional):");
-                    if (name && name.trim()) {
-                        localStorage.setItem(STORAGE_KEYS.USER_NAME, name.trim());
-                    }
+
+            localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
+            localStorage.setItem(STORAGE_KEYS.LOGGED_IN, "true");
+            localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
+
+            if (!localStorage.getItem(STORAGE_KEYS.USER_NAME)) {
+                const name = prompt("Welcome! What's your name? (optional):");
+                if (name?.trim()) {
+                    localStorage.setItem(STORAGE_KEYS.USER_NAME, name.trim());
                 }
-            } catch (storageErr) {
-                console.error("Storage error:", storageErr);
             }
 
-            // Log activity
             logLoginActivity(email);
 
-            // Redirect to intended page or home
             const target = localStorage.getItem(STORAGE_KEYS.LOGIN_REDIRECT);
-            if (target) {
-                try { localStorage.removeItem(STORAGE_KEYS.LOGIN_REDIRECT); } catch {}
-                setTimeout(() => { window.location.href = target; }, 600);
-            } else {
-                setTimeout(() => { window.location.href = "index.html"; }, 600);
-            }
+            localStorage.removeItem(STORAGE_KEYS.LOGIN_REDIRECT);
+
+            setTimeout(() => {
+                window.location.href = target || "index.html";
+            }, 600);
+
         } else {
-            updateStatus(data.message || "❌ OTP verification failed.", "error");
+            updateStatus(data.message || "❌ Invalid OTP.", "error");
             verifyOtpBtn.disabled = false;
-            
-            // Clear OTP input for retry
-            if (otpInput) otpInput.value = "";
-            if (otpInput) otpInput.focus();
+            otpInput.value = "";
+            otpInput.focus();
         }
 
     } catch (err) {
-        console.error("Verify OTP error:", err);
-        updateStatus("❌ Error verifying OTP. Please try again.", "error");
+        console.error(err);
+        updateStatus("❌ Error verifying OTP.", "error");
         verifyOtpBtn.disabled = false;
     }
 }
+
 
 async function resendOTP() {
     const email = emailInput.value.trim();
