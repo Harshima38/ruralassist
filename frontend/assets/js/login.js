@@ -38,6 +38,7 @@ function generateOTP() {
 async function sendOTP() {
     const email = emailInput.value.trim();
 
+    // 1. Basic validation
     if (!email) {
         updateStatus("⚠️ Please enter your email first.", "warning");
         return;
@@ -45,41 +46,47 @@ async function sendOTP() {
 
     const emailRegex = /^[\w\.-]+@[\w\.-]+\.[\w-]+$/;
     if (!emailRegex.test(email)) {
-        updateStatus("❌ Invalid email address.", "error");
+        updateStatus("❌ Please enter a valid email address.", "error");
         return;
     }
 
     sendOtpBtn.disabled = true;
     updateStatus("📧 Sending OTP...", "info");
 
-    const otp = generateOTP();
+    // 2. Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     try {
+        // 3. Send OTP via EmailJS
         await emailjs.send(
-            "service_5kfieij",
-            "template_izgz3l6",
+            "service_5kfieij",      
+            "template_izgz3l6",     
             {
                 to_email: email,
                 otp: otp
             }
         );
 
-        // Store OTP temporarily (5 minutes)
+        // 4. Store OTP locally (valid for 5 minutes)
         localStorage.setItem("ruralassist_temp_otp", otp);
-        localStorage.setItem("ruralassist_otp_time", Date.now());
+        localStorage.setItem("ruralassist_otp_time", Date.now().toString());
 
-        updateStatus("✅ OTP sent successfully. Check inbox or spam.", "success");
+        updateStatus("✅ OTP sent successfully. Check your inbox or spam.", "success");
 
+        // 5. Enable OTP verification UI
         otpInput.disabled = false;
+        otpInput.focus();
         verifyOtpBtn.disabled = false;
+
         startResendTimer();
 
     } catch (err) {
-        console.error("EmailJS error:", err);
-        updateStatus("❌ Failed to send OTP. Try again.", "error");
+        console.error("EmailJS send error:", err);
+        updateStatus("❌ Failed to send OTP. Please try again.", "error");
         sendOtpBtn.disabled = false;
     }
 }
+
 
 
 async function verifyOTP() {
