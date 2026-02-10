@@ -44,19 +44,19 @@ function logout() {
 }
 
 // --- AUTO-REDIRECT ON EXPIRED TOKEN (protected pages) ---
-if (typeof window !== 'undefined' && window.location &&
-        !window.location.pathname.endsWith('/login.html') &&
-        !window.location.pathname.endsWith('/index.html') &&
-        !window.location.pathname.endsWith('/about.html')) {
-    // if (isTokenExpired()) {
-    //     try { localStorage.setItem("login_redirect_target", window.location.pathname); } catch {}
-    //     localStorage.removeItem("ruralassist_token");
-    //     localStorage.removeItem("ruralassist_logged_in");
-    //     localStorage.removeItem("user_email");
-    //     localStorage.removeItem("ruralassist_name");
-    //     window.location.href = "/login.html";
-    // }
-}
+// if (typeof window !== 'undefined' && window.location &&
+//         !window.location.pathname.endsWith('/login.html') &&
+//         !window.location.pathname.endsWith('/index.html') &&
+//         !window.location.pathname.endsWith('/about.html')) {
+//     // if (isTokenExpired()) {
+//     //     try { localStorage.setItem("login_redirect_target", window.location.pathname); } catch {}
+//     //     localStorage.removeItem("ruralassist_token");
+//     //     localStorage.removeItem("ruralassist_logged_in");
+//     //     localStorage.removeItem("user_email");
+//     //     localStorage.removeItem("ruralassist_name");
+//     //     window.location.href = "/login.html";
+//     // }
+// }
 // --- CONFIGURATION ---
 var API_BASE_URL = window.AppConfig?.API_BASE_URL;
 
