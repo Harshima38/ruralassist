@@ -136,54 +136,9 @@ async function verifyOTP() {
 
 
 async function resendOTP() {
-    const email = emailInput.value.trim();
-    if (!email) {
-        updateStatus("⚠️ Please enter your email first.", "warning");
-        return;
-    }
-
-    // Check if enough time has passed (30 seconds)
-    const timeSinceLastOtp = Date.now() - otpSentTime;
-    if (timeSinceLastOtp < 30000) {
-        const remainingSeconds = Math.ceil((30000 - timeSinceLastOtp) / 1000);
-        updateStatus(`⏰ Please wait ${remainingSeconds} seconds before resending.`, "warning");
-        return;
-    }
-
-    resendOtpBtn.disabled = true;
-    updateStatus("📧 Resending OTP...", "info");
-
-    try {
-        const res = await fetch(`${AppConfig.API_BASE_URL}/auth/resend-otp`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-            updateStatus("✅ New OTP sent to your email!", "success");
-            otpSentTime = Date.now();
-            
-            // Clear old OTP
-            if (otpInput) {
-                otpInput.value = "";
-                otpInput.focus();
-            }
-            
-            startResendTimer();
-        } else {
-            updateStatus(data.message || "❌ Failed to resend OTP.", "error");
-            resendOtpBtn.disabled = false;
-        }
-
-    } catch (err) {
-        console.error("Resend OTP error:", err);
-        updateStatus("❌ Error resending OTP.", "error");
-        resendOtpBtn.disabled = false;
-    }
+    sendOTP(); // reuse EmailJS logic
 }
+
 
 function startResendTimer() {
     if (resendOtpBtn) resendOtpBtn.disabled = true;
