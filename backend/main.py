@@ -56,7 +56,7 @@ app.include_router(ocr_router, prefix="/ocr")
 app.include_router(chatbot_router, prefix="/chatbot")
 app.include_router(schemes_router, prefix="/schemes")
 app.include_router(scam_router, prefix="/scam")
-app.include_router(auth_router, prefix="/auth")
+# app.include_router(auth_router, prefix="/auth")
 app.include_router(faq_router, prefix="/faq")
 app.include_router(profile_router, prefix="/profile")
 
