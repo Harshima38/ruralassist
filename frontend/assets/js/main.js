@@ -1,26 +1,26 @@
 // --- TOKEN EXPIRY AND LOGIN STATE ---
-function isTokenExpired() {
-    const token = localStorage.getItem("ruralassist_token");
-    if (!token) return true;
-    try {
-        const parts = token.split(".");
-        if (parts.length !== 3) return true; // Malformed token
-        const payload = JSON.parse(atob(parts[1]));
-        const now = Date.now() / 1000;
-        if (typeof payload.exp === "number") {
-            return payload.exp < now;
-        }
-        return true; // No exp field, treat as expired
-    } catch {
-        // If decode fails, treat as expired
-        return true;
-    }
-}
+// function isTokenExpired() {
+//     const token = localStorage.getItem("ruralassist_token");
+//     if (!token) return true;
+//     try {
+//         const parts = token.split(".");
+//         if (parts.length !== 3) return true; // Malformed token
+//         const payload = JSON.parse(atob(parts[1]));
+//         const now = Date.now() / 1000;
+//         if (typeof payload.exp === "number") {
+//             return payload.exp < now;
+//         }
+//         return true; // No exp field, treat as expired
+//     } catch {
+//         // If decode fails, treat as expired
+//         return true;
+//     }
+// }
 
 function isLoggedIn() {
-    const token = localStorage.getItem("ruralassist_token");
-    return !!token && !isTokenExpired();
+    return localStorage.getItem("ruralassist_logged_in") === "true";
 }
+
 
 function ensureLoggedIn() {
     if (!isLoggedIn()) {
@@ -48,14 +48,14 @@ if (typeof window !== 'undefined' && window.location &&
         !window.location.pathname.endsWith('/login.html') &&
         !window.location.pathname.endsWith('/index.html') &&
         !window.location.pathname.endsWith('/about.html')) {
-    if (isTokenExpired()) {
-        try { localStorage.setItem("login_redirect_target", window.location.pathname); } catch {}
-        localStorage.removeItem("ruralassist_token");
-        localStorage.removeItem("ruralassist_logged_in");
-        localStorage.removeItem("user_email");
-        localStorage.removeItem("ruralassist_name");
-        window.location.href = "/login.html";
-    }
+    // if (isTokenExpired()) {
+    //     try { localStorage.setItem("login_redirect_target", window.location.pathname); } catch {}
+    //     localStorage.removeItem("ruralassist_token");
+    //     localStorage.removeItem("ruralassist_logged_in");
+    //     localStorage.removeItem("user_email");
+    //     localStorage.removeItem("ruralassist_name");
+    //     window.location.href = "/login.html";
+    // }
 }
 // --- CONFIGURATION ---
 var API_BASE_URL = window.AppConfig?.API_BASE_URL;
