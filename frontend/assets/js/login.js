@@ -90,74 +90,48 @@ async function sendOTP() {
 
 
 async function verifyOTP() {
-    const email = emailInput.value.trim();
     const otp = otpInput.value.trim();
-
+    const savedOtp = localStorage.getItem("ruralassist_temp_otp");
     const otpTime = localStorage.getItem("ruralassist_otp_time");
 
-    if (!email || !otp) {
-        updateStatus("⚠️ Please enter email and OTP.", "warning");
+    if (!savedOtp || !otpTime) {
+        updateStatus("❌ OTP expired. Please request again.", "error");
         return;
     }
 
-    if (!otpTime || Date.now() - otpTime > 5 * 60 * 1000) {
+    if (Date.now() - Number(otpTime) > 5 * 60 * 1000) {
         updateStatus("⏰ OTP expired. Please resend.", "error");
-        verifyOtpBtn.disabled = false;
         return;
     }
 
-    verifyOtpBtn.disabled = true;
-    updateStatus("🔐 Verifying OTP...", "info");
-
-    try {
-        const res = await fetch(`${AppConfig.API_BASE_URL}/auth/verify-email-otp`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, otp })
-        });
-
-        const data = await res.json();
-
-        if (data.success && data.token) {
-
-            // ✅ CLEAR TEMP OTP DATA
-            localStorage.removeItem("ruralassist_temp_otp");
-            localStorage.removeItem("ruralassist_otp_time");
-
-            updateStatus("✅ Login successful! Redirecting...", "success");
-
-            localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
-            localStorage.setItem(STORAGE_KEYS.LOGGED_IN, "true");
-            localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
-
-            if (!localStorage.getItem(STORAGE_KEYS.USER_NAME)) {
-                const name = prompt("Welcome! What's your name? (optional):");
-                if (name?.trim()) {
-                    localStorage.setItem(STORAGE_KEYS.USER_NAME, name.trim());
-                }
-            }
-
-            logLoginActivity(email);
-
-            const target = localStorage.getItem(STORAGE_KEYS.LOGIN_REDIRECT);
-            localStorage.removeItem(STORAGE_KEYS.LOGIN_REDIRECT);
-
-            setTimeout(() => {
-                window.location.href = target || "index.html";
-            }, 600);
-
-        } else {
-            updateStatus(data.message || "❌ Invalid OTP.", "error");
-            verifyOtpBtn.disabled = false;
-            otpInput.value = "";
-            otpInput.focus();
-        }
-
-    } catch (err) {
-        console.error(err);
-        updateStatus("❌ Error verifying OTP.", "error");
-        verifyOtpBtn.disabled = false;
+    if (otp !== savedOtp) {
+        updateStatus("❌ Incorrect OTP.", "error");
+        return;
     }
+
+    // ✅ SUCCESS
+    updateStatus("✅ Login successful! Redirecting...", "success");
+
+    // 🔐 Store login state
+    localStorage.setItem(STORAGE_KEYS.LOGGED_IN, "true");
+    localStorage.setItem(STORAGE_KEYS.USER_EMAIL, emailInput.value.trim());
+
+    // 🧹 Clear OTP data
+    localStorage.removeItem("ruralassist_temp_otp");
+    localStorage.removeItem("ruralassist_otp_time");
+
+    // Optional name prompt
+    if (!localStorage.getItem(STORAGE_KEYS.USER_NAME)) {
+        const name = prompt("Welcome! What's your name? (optional):");
+        if (name && name.trim()) {
+            localStorage.setItem(STORAGE_KEYS.USER_NAME, name.trim());
+        }
+    }
+
+    // Redirect
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 600);
 }
 
 
@@ -252,23 +226,23 @@ function updateStatus(message, type = "info") {
 }
 
 // Log login activity to profile
-async function logLoginActivity(email) {
-    const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-    if (!token) return;
+// async function logLoginActivity(email) {
+//     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+//     if (!token) return;
 
-    try {
-        await fetch(`${AppConfig.API_BASE_URL}/profile/activity`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                type: "login",
-                description: `Logged in via OTP`
-            })
-        });
-    } catch (e) {
-        // Silent fail for analytics
-    }
-}
+//     try {
+//         await fetch(`${AppConfig.API_BASE_URL}/profile/activity`, {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Authorization": `Bearer ${token}`
+//             },
+//             body: JSON.stringify({
+//                 type: "login",
+//                 description: `Logged in via OTP`
+//             })
+//         });
+//     } catch (e) {
+//         // Silent fail for analytics
+//     }
+// }
