@@ -62,7 +62,7 @@ async function sendOTP() {
             "service_5kfieij",      
             "template_izgz3l6",     
             {
-                to_email: email,
+                email: email,
                 otp: otp
             }
         );
