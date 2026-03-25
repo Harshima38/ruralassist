@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GramAI | Report an Issue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#00422b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#755e4f",
+                        "primary-container": "#10b981",
+                        "surface-bright": "#f9f9f8",
+                        "on-error": "#ffffff",
+                        "background": "#f9f9f8",
+                        "outline-variant": "#bbcabf",
+                        "primary": "#006c49",
+                        "surface-tint": "#006c49",
+                        "surface-container-high": "#e7e8e7",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-secondary-fixed-variant": "#574335",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1c",
+                        "on-primary-fixed-variant": "#005236",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-fixed-dim": "#dec1ae",
+                        "on-primary-fixed": "#002113",
+                        "surface-container-low": "#f3f4f3",
+                        "primary-fixed": "#6ffbbe",
+                        "on-secondary-fixed": "#28180c",
+                        "surface-variant": "#e1e3e2",
+                        "outline": "#6c7a71",
+                        "secondary-container": "#f8dac7",
+                        "on-background": "#191c1c",
+                        "tertiary": "#855300",
+                        "on-tertiary-container": "#523200",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#4edea3",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#4edea3",
+                        "surface-container-highest": "#e1e3e2",
+                        "tertiary-container": "#e29100",
+                        "on-primary": "#ffffff",
+                        "surface": "#f9f9f8",
+                        "on-surface-variant": "#3c4a42",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#705a4b",
+                        "surface-container": "#edeeed",
+                        "surface-dim": "#d9dad9",
+                        "on-tertiary-fixed": "#2a1700",
+                        "inverse-on-surface": "#f0f1f0",
+                        "secondary-fixed": "#fbddc9"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f8;
+            background-image: radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+                              radial-gradient(circle at 100% 100%, rgba(226, 145, 0, 0.03) 0%, transparent 50%);
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl flex justify-between items-center px-6 py-3 max-w-full mx-auto shadow-sm shadow-emerald-900/5">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-r from-emerald-600 to-teal-400 bg-clip-text text-transparent">GramAI</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-['Plus_Jakarta_Sans'] font-bold text-base text-slate-600 dark:text-slate-400 hover:text-emerald-500 transition-colors" href="#">Dashboard</a>
+<a class="font-['Plus_Jakarta_Sans'] font-bold text-base text-emerald-700 dark:text-emerald-300 border-b-2 border-emerald-500 pb-1" href="#">Services</a>
+<a class="font-['Plus_Jakarta_Sans'] font-bold text-base text-slate-600 dark:text-slate-400 hover:text-emerald-500 transition-colors" href="#">Grievances</a>
+<a class="font-['Plus_Jakarta_Sans'] font-bold text-base text-slate-600 dark:text-slate-400 hover:text-emerald-500 transition-colors" href="#">Community</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 rounded-full transition-all">
+<span class="material-symbols-outlined text-outline" data-icon="language">language</span>
+</button>
+<button class="p-2 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 rounded-full transition-all relative">
+<span class="material-symbols-outlined text-outline" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Himanshu's Profile" data-alt="Close-up portrait of a young professional Indian man with a warm smile in a sunlit outdoor garden setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6MlCJImSMiQc9tbewTbVMNzQtSXrAGMb64EvhKYGo15tkjmD-E9OVYBmS_hd2RCtaRglzVdarXX67rLTyjHoGM6h8FCGnXHKARlwAbZhcuE7sPpZCoXwqKfjfdJNJaME9tvCw5bXRPVoFAY57M5DbBJyQoKuOxkjW7QGF6_xYoAFfigGFV4NLwy9KRBLgQX1hXUlE2CZKQbOJN7qfRjnycgf97xiqDnVvdOv5MRXnrJ-3Fbj8vsLZ2ovipXhNLqgV0l0HZPaSFPpb"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-32 px-4 md:px-8 max-w-4xl mx-auto w-full">
+<!-- Progress Header -->
+<header class="mb-12 text-center">
+<h1 class="text-4xl font-extrabold tracking-tight mb-4 text-on-surface">Report an Issue</h1>
+<p class="text-body-lg text-outline mb-8">Your contribution helps keep our village thriving.</p>
+<!-- Progress Bar -->
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
+<div class="h-full bg-gradient-to-r from-primary-container to-inverse-primary w-2/3 transition-all duration-700"></div>
+</div>
+<div class="flex justify-between mt-4 px-2">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Photo</span>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Location</span>
+<span class="text-xs font-bold text-outline uppercase tracking-widest">Category</span>
+</div>
+</header>
+<!-- Multi-Step Flow Container -->
+<div class="space-y-12">
+<!-- Step 1: Upload Photo -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(25,28,28,0.04)] relative group transition-all">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary font-bold">1</span>
+<h2 class="text-2xl font-bold">Capture the Issue</h2>
+</div>
+<div class="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-dashed border-outline-variant/30 hover:border-primary/50 transition-colors bg-surface-container-low group">
+<img alt="Broken road issue" class="w-full h-full object-cover opacity-80" data-alt="A wide angle shot of a rural road with a large pothole in the foreground, surrounded by lush green fields at midday." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuzWwZrRT_00aORNVm6r_0ZHtccLaW1j0sTTPHRIiJYV96EoMct6dWrSfTHDtoqolYuolcKo_hoZvIrTiyxs5XnOpsDCu4hBFbF5eX2wkHhjQatRXzVJPXmz9Kq8oGL1a1pqfLeOTFCFQCKY4oxMOb9Vg7izXpdbUGAAiQ7yBAEy0IT-S7BJgvX6gp8G5-i1s419hASA5Bgv4WzzHGDAbl4AoPlB3cEe2mUIgvDCcyoWvHMYLVFCTTs7gZdly7Q2xUmpvik50bInwb"/>
+<div class="absolute inset-0 glass-effect bg-black/20 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-5xl mb-2" data-icon="add_a_photo">add_a_photo</span>
+<p class="font-bold">Retake Photo</p>
+</div>
+<!-- Image Preview Overlay Status -->
+<div class="absolute bottom-4 left-4 right-4 py-3 px-6 glass-effect bg-white/70 rounded-full flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-semibold text-on-surface">IMG_20240501_1230.jpg</span>
+</div>
+<span class="text-xs font-medium text-outline uppercase">Uploaded</span>
+</div>
+</div>
+</section>
+<!-- Step 2: Location Detection -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(25,28,28,0.04)]">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary font-bold">2</span>
+<h2 class="text-2xl font-bold">Confirm Location</h2>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="w-full md:w-1/2 rounded-lg overflow-hidden shadow-sm h-64 border border-outline-variant/10">
+<img alt="Map view" class="w-full h-full object-cover" data-alt="Top-down abstract map view of a rural village with simplified green areas, beige paths, and a bright red location pin." data-location="Udaipur, Rajasthan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS-ctNdDmB2v53mOWa0mIQTnXzs7yHKmFUJn8Y7bL8Uw9vmu-FhE2s3DRhxlyeQAIYhwKuH1ZE7_5hT5vF0lmZNQ0GeRk7TwuVA69EZmUhHmlQfcKHq4vqtpMDmYjvsZLtgyMAlVJPlp5_U4uQNeuOAD82MhZJmZKjEbQv_7BtZP3V31VhdPbSfPiwNGD1-lOzqcpRJfpl12ilBg55KvSGREfGASIdDBMzx8YH1TwskrKwl3libB8R47-sp8LcEuXyfCMcwPas5Sso"/>
+</div>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/15">
+<label class="text-xs font-bold text-outline uppercase block mb-1">Detected Village</label>
+<p class="text-lg font-bold text-on-surface">Kumbhalgarh North</p>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/15">
+<label class="text-xs font-bold text-outline uppercase block mb-1">Precise Coordinates</label>
+<p class="text-body-lg text-on-surface">25.1492° N, 73.5873° E</p>
+</div>
+<button class="w-full flex items-center justify-center gap-2 py-3 rounded-full border border-primary text-primary font-bold hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="my_location">my_location</span>
+                            Adjust Pin
+                        </button>
+</div>
+</div>
+</section>
+<!-- Step 3: Select Issue Category -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(25,28,28,0.04)]">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary font-bold">3</span>
+<h2 class="text-2xl font-bold">Categorize the Issue</h2>
+</div>
+<!-- Icon-First Category Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="flex flex-col items-center justify-center p-6 rounded-lg bg-surface-container-low border-2 border-primary transition-all ring-4 ring-primary/10">
+<span class="material-symbols-outlined text-4xl text-primary mb-3" data-icon="edit_road" style="font-variation-settings: 'FILL' 1;">edit_road</span>
+<span class="font-bold text-sm">Road Fix</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low border-2 border-transparent transition-all">
+<span class="material-symbols-outlined text-4xl text-outline mb-3" data-icon="water_drop">water_drop</span>
+<span class="font-bold text-sm">Water Leak</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low border-2 border-transparent transition-all">
+<span class="material-symbols-outlined text-4xl text-outline mb-3" data-icon="bolt">bolt</span>
+<span class="font-bold text-sm">Power Cut</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low border-2 border-transparent transition-all">
+<span class="material-symbols-outlined text-4xl text-outline mb-3" data-icon="delete_sweep">delete_sweep</span>
+<span class="font-bold text-sm">Waste Info</span>
+</button>
+</div>
+<textarea class="w-full mt-8 p-4 bg-surface-container-highest rounded-lg border-none focus:ring-2 focus:ring-primary/30 min-h-[120px] placeholder:text-outline/60 font-body" placeholder="Add a quick note or audio memo..."></textarea>
+</section>
+<!-- Call to Action -->
+<div class="pt-8 flex flex-col items-center gap-6">
+<button class="w-full max-w-md py-5 rounded-full bg-gradient-to-r from-tertiary-container to-[#f5b80b] text-on-tertiary-container text-xl font-black shadow-xl shadow-tertiary-container/30 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
+                    Submit Issue
+                    <span class="material-symbols-outlined font-black" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="text-xs text-outline font-medium tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-xs" data-icon="info">info</span>
+                    Submission will be visible to your Village Head immediately.
+                </p>
+</div>
+</div>
+</main>
+<!-- Success Confirmation Overlay (Hidden by Default/Visual Rep) -->
+<div class="fixed inset-0 z-[60] bg-surface/95 backdrop-blur-xl flex items-center justify-center p-4 hidden">
+<div class="max-w-md w-full text-center space-y-8 p-8">
+<div class="relative inline-block">
+<!-- Progress Bloom Representation -->
+<div class="w-32 h-32 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-2xl shadow-emerald-500/40 mx-auto">
+<span class="material-symbols-outlined text-white text-6xl" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div class="absolute inset-0 rounded-full border-4 border-emerald-200 animate-ping opacity-25"></div>
+</div>
+<div>
+<h3 class="text-3xl font-black mb-2">Issue Submitted!</h3>
+<p class="text-outline text-lg">Ticket #GR-9921 has been raised for Kumbhalgarh North.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg">
+<p class="text-xs font-bold text-outline uppercase mb-1">ETA Fix</p>
+<p class="font-bold">48 Hours</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<p class="text-xs font-bold text-outline uppercase mb-1">Status</p>
+<p class="font-bold text-primary">Assigned</p>
+</div>
+</div>
+<button class="w-full py-4 rounded-full bg-on-surface text-surface font-bold">Return to Dashboard</button>
+</div>
+</div>
+<!-- BottomNavBar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-t-[2.5rem] z-50 shadow-2xl">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-emerald-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[11px] font-bold uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-emerald-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[11px] font-bold uppercase tracking-wider mt-1">Voice</span>
+</a>
+<!-- Active Tab: Services/Report flow often maps to Updates/Dashboard -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-full w-14 h-14 -translate-y-4 shadow-lg shadow-emerald-500/40" href="#">
+<span class="material-symbols-outlined" data-icon="campaign" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[11px] font-bold uppercase tracking-wider mt-0.5 hidden">Updates</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-emerald-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[11px] font-bold uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+<!-- Citizen FAB (Signature Component) -->
+<button class="fixed bottom-24 right-6 w-16 h-16 rounded-full bg-tertiary-container shadow-2xl flex items-center justify-center group hover:scale-110 transition-transform active:scale-95 z-40">
+<span class="material-symbols-outlined text-on-tertiary-container text-3xl group-hover:rotate-12 transition-transform" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+</body></html>

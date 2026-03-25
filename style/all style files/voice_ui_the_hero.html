@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GramAI Voice Assistant</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error-container": "#93000a",
+              "on-primary-container": "#00422b",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#755e4f",
+              "primary-container": "#10b981",
+              "surface-bright": "#f9f9f8",
+              "on-error": "#ffffff",
+              "background": "#f9f9f8",
+              "outline-variant": "#bbcabf",
+              "primary": "#006c49",
+              "surface-tint": "#006c49",
+              "surface-container-high": "#e7e8e7",
+              "tertiary-fixed": "#ffddb8",
+              "on-secondary-fixed-variant": "#574335",
+              "error": "#ba1a1a",
+              "on-surface": "#191c1c",
+              "on-primary-fixed-variant": "#005236",
+              "inverse-surface": "#2e3131",
+              "on-tertiary-fixed-variant": "#653e00",
+              "secondary-fixed-dim": "#dec1ae",
+              "on-primary-fixed": "#002113",
+              "surface-container-low": "#f3f4f3",
+              "primary-fixed": "#6ffbbe",
+              "on-secondary-fixed": "#28180c",
+              "surface-variant": "#e1e3e2",
+              "outline": "#6c7a71",
+              "secondary-container": "#f8dac7",
+              "on-background": "#191c1c",
+              "tertiary": "#855300",
+              "on-tertiary-container": "#523200",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#4edea3",
+              "tertiary-fixed-dim": "#ffb95f",
+              "error-container": "#ffdad6",
+              "inverse-primary": "#4edea3",
+              "surface-container-highest": "#e1e3e2",
+              "tertiary-container": "#e29100",
+              "on-primary": "#ffffff",
+              "surface": "#f9f9f8",
+              "on-surface-variant": "#3c4a42",
+              "on-tertiary": "#ffffff",
+              "secondary": "#705a4b",
+              "surface-container": "#edeeed",
+              "surface-dim": "#d9dad9",
+              "on-tertiary-fixed": "#2a1700",
+              "inverse-on-surface": "#f0f1f0",
+              "secondary-fixed": "#fbddc9"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(40px);
+        }
+        .voice-glow {
+            box-shadow: 0 0 80px 10px rgba(16, 185, 129, 0.2);
+        }
+        .waveform-bar {
+            width: 4px;
+            background: linear-gradient(to top, #10b981, #4edea3);
+            border-radius: 9999px;
+            animation: pulse-wave 1.2s ease-in-out infinite;
+        }
+        @keyframes pulse-wave {
+            0%, 100% { height: 10px; opacity: 0.4; }
+            50% { height: 60px; opacity: 1; }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Hero Background Context (Hidden behind modal but provides depth) -->
+<main class="fixed inset-0 z-0 overflow-hidden flex items-center justify-center">
+<div class="max-w-7xl w-full px-6 grid grid-cols-1 md:grid-cols-2 gap-12 opacity-20 pointer-events-none">
+<div class="space-y-8">
+<div class="h-12 w-48 bg-primary-container rounded-full"></div>
+<div class="h-64 w-full bg-surface-container-highest rounded-lg"></div>
+<div class="grid grid-cols-3 gap-4">
+<div class="h-24 bg-surface-variant rounded-DEFAULT"></div>
+<div class="h-24 bg-surface-variant rounded-DEFAULT"></div>
+<div class="h-24 bg-surface-variant rounded-DEFAULT"></div>
+</div>
+</div>
+<div class="h-full bg-surface-container-low rounded-xl"></div>
+</div>
+</main>
+<!-- GramAI Voice UI Modal (The Hero) -->
+<div class="fixed inset-0 z-[60] flex flex-col items-center justify-center glass-dark overflow-hidden">
+<!-- Header / Close Action -->
+<div class="absolute top-0 w-full flex justify-between items-center px-8 py-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-container to-inverse-primary flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+<span class="font-headline font-extrabold text-2xl tracking-tight text-white">GramAI</span>
+</div>
+<button class="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Main Content Container -->
+<div class="w-full max-w-4xl px-6 flex flex-col items-center gap-12">
+<!-- Transcription Area -->
+<div class="w-full space-y-6 flex flex-col items-center overflow-y-auto max-h-[409px] py-4 scrollbar-hide">
+<!-- AI Response -->
+<div class="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-lg max-w-lg self-start">
+<p class="text-emerald-400 font-headline font-semibold text-sm mb-2 uppercase tracking-widest">GramAI</p>
+<p class="text-slate-100 text-lg leading-relaxed">GramAI Voice Assistant - How can I help you today?</p>
+</div>
+<!-- User Transcription -->
+<div class="bg-primary/20 backdrop-blur-md border border-primary/30 p-6 rounded-lg max-w-lg self-end voice-glow">
+<p class="text-emerald-300 font-headline font-semibold text-sm mb-2 uppercase tracking-widest text-right">You</p>
+<p class="text-white text-lg leading-relaxed italic">"Check the latest market prices for wheat in Nagpur Mandi..."</p>
+</div>
+</div>
+<!-- Waveform Visualization -->
+<div class="relative flex items-center justify-center h-48 w-full">
+<!-- Circular Glow Background -->
+<div class="absolute w-64 h-64 bg-primary/20 rounded-full blur-[80px]"></div>
+<!-- Animated Waveform Bars -->
+<div class="flex items-center gap-2 h-24">
+<div class="waveform-bar h-12 delay-1"></div>
+<div class="waveform-bar h-16 delay-3"></div>
+<div class="waveform-bar h-24 delay-2"></div>
+<div class="waveform-bar h-20 delay-5"></div>
+<div class="waveform-bar h-14 delay-4"></div>
+<div class="waveform-bar h-18 delay-1"></div>
+<div class="waveform-bar h-24 delay-3"></div>
+<div class="waveform-bar h-20 delay-2"></div>
+<div class="waveform-bar h-14 delay-5"></div>
+<div class="waveform-bar h-10 delay-4"></div>
+</div>
+<!-- Central Floating Mic Circle -->
+<div class="absolute w-24 h-24 rounded-full bg-gradient-to-br from-primary-container to-inverse-primary flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.4)] animate-pulse">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</div>
+</div>
+<!-- Suggestion Chips -->
+<div class="flex flex-wrap justify-center gap-3">
+<button class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-slate-300 transition-all font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400 text-lg">agriculture</span>
+                    Crop Insurance Status
+                </button>
+<button class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-slate-300 transition-all font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400 text-lg">water_drop</span>
+                    Irrigation Subsidy
+                </button>
+<button class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-slate-300 transition-all font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400 text-lg">description</span>
+                    Apply for Pan Card
+                </button>
+</div>
+</div>
+<!-- Footer Help Text -->
+<div class="absolute bottom-12 flex flex-col items-center gap-4">
+<div class="flex items-center gap-2 text-slate-400 text-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                Listening...
+            </div>
+<p class="text-slate-500 text-xs font-label tracking-widest uppercase">Tap or say "Stop" to finish</p>
+</div>
+</div>
+<!-- Side Navigation Shell (Hidden on Voice Hero Screen per Suppression Rules, but included for system integrity as requested in instructions to prioritize content canvas) -->
+<!-- Suppression logic: Page intent is a "focused task" (Voice Modal), therefore shell visibility is reduced -->
+<!-- Floating Action Button (Citizen FAB) -->
+<!-- Suppressed on "Focused Voice Task" per Suppression Rules -->
+<!-- Example of Content Underneath (The Soil) -->
+<div class="p-10 opacity-10">
+<h1 class="text-display-lg font-headline font-bold text-on-surface mb-6">Village Dashboard</h1>
+<div class="grid grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-sm h-64 border border-outline-variant/15"></div>
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-sm h-64 border border-outline-variant/15"></div>
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-sm h-64 border border-outline-variant/15"></div>
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-sm h-64 border border-outline-variant/15"></div>
+</div>
+</div>
+</body></html>
